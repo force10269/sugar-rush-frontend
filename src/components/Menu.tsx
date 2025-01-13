@@ -8,8 +8,6 @@ import {
   Card,
   CardContent,
   Button,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 
 interface MenuItem {
@@ -48,9 +46,6 @@ const sampleMenu: { [key: string]: MenuItem[] } = {
 };
 
 const Menu: React.FC = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
   const handleDownloadPDF = () => {
     // For downloading
     window.open("/placeholder.pdf", "_blank");
