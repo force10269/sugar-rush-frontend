@@ -45,40 +45,22 @@ const Home: React.FC = () => {
 
   return (
     <Box>
-      {/* Hero Section */}
       <Box
         sx={{
           bgcolor: "primary.main",
           color: "white",
-          pt: { xs: 8, sm: 12, md: 16 },
-          pb: { xs: 6, sm: 8, md: 10 },
+          pt: { xs: 4, sm: 6, md: 8 },
+          pb: { xs: 4, sm: 6, md: 8 },
           position: "relative",
           overflow: "hidden",
           borderRadius: { sm: "0 0 2rem 2rem" },
         }}
       >
-        {/* Background Pattern Placeholder */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            opacity: 0.1,
-            background: `
-              linear-gradient(45deg, transparent 45%, #FFF 45%, #FFF 55%, transparent 55%),
-              linear-gradient(-45deg, transparent 45%, #FFF 45%, #FFF 55%, transparent 55%)
-            `,
-            backgroundSize: "20px 20px",
-          }}
-        />
-
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Box sx={{ textAlign: "center" }}>
             <Box
               sx={{
-                mb: 4,
+                mb: 3,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -90,7 +72,7 @@ const Home: React.FC = () => {
                 style={{
                   maxWidth: "100%",
                   height: "auto",
-                  maxHeight: "200px",
+                  maxHeight: "150px",
                   objectFit: "contain",
                 }}
               />
@@ -101,7 +83,8 @@ const Home: React.FC = () => {
                 fontSize: { xs: "2.5rem", sm: "3.5rem", md: "4rem" },
                 fontWeight: "bold",
                 mb: 2,
-                textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+                color: "text.primary",
+                textShadow: "none",
               }}
             >
               Sugar Rush LTD
@@ -109,7 +92,7 @@ const Home: React.FC = () => {
           </Box>
         </Container>
       </Box>
-      {/* Features Section */}
+
       <Container maxWidth="lg" sx={{ my: { xs: 4, sm: 6, md: 8 } }}>
         <Grid container spacing={3}>
           {features.map((feature, index) => (
@@ -138,7 +121,6 @@ const Home: React.FC = () => {
           ))}
         </Grid>
       </Container>
-      {/* CTA Section */}
       <Box
         sx={{
           bgcolor: "primary.light",

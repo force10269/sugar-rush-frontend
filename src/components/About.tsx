@@ -42,7 +42,6 @@ const About: React.FC = () => {
 
   return (
     <Container maxWidth="lg">
-      {/* Main About Section */}
       <Box sx={{ py: { xs: 4, md: 6 } }}>
         <Typography
           variant="h1"
@@ -56,7 +55,6 @@ const About: React.FC = () => {
           About Sugar Rush LTD
         </Typography>
 
-        {/* Story Section */}
         <Box sx={{ mb: 6 }}>
           <Typography
             variant="h2"
@@ -80,7 +78,6 @@ const About: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* Highlights Section */}
         <Grid container spacing={4} sx={{ mb: 6 }}>
           {highlights.map((highlight, index) => (
             <Grid item xs={12} md={4} key={index}>
@@ -108,7 +105,6 @@ const About: React.FC = () => {
           ))}
         </Grid>
 
-        {/* Values Section */}
         <Box sx={{ mb: 6 }}>
           <Typography
             variant="h2"
@@ -132,7 +128,6 @@ const About: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* CTA Section */}
         <Box
           sx={{
             textAlign: "center",

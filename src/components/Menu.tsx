@@ -53,17 +53,16 @@ const Menu: React.FC = () => {
 
   const handleDownloadPDF = () => {
     // For downloading
-    window.open("/menu.pdf", "_blank");
+    window.open("/placeholder.pdf", "_blank");
 
     // Or for direct download
     const link = document.createElement("a");
-    link.href = "/menu.pdf";
+    link.href = "/placeholder.pdf";
     link.download = "Sugar-Rush-Menu.pdf";
     link.click();
   };
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
-      {/* Header Section */}
       <Box sx={{ mb: 4, textAlign: "center" }}>
         <Typography
           variant="h1"
@@ -95,7 +94,7 @@ const Menu: React.FC = () => {
         </Button>
       </Box>
 
-      {/* Menu Categories */}
+      {/* Menu categories */}
       <Grid container spacing={3}>
         {Object.entries(sampleMenu).map(([category, items]) => (
           <Grid item xs={12} md={6} key={category}>
@@ -152,7 +151,6 @@ const Menu: React.FC = () => {
         ))}
       </Grid>
 
-      {/* Note Section */}
       <Box sx={{ mt: 4, textAlign: "center" }}>
         <Typography
           variant="body1"

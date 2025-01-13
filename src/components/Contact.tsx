@@ -15,7 +15,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { setStatus, setError } from "../store/store";
+import {
+  setContactStatus,
+  setContactError,
+  selectContactState,
+} from "../store/store";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -31,7 +35,7 @@ const Contact: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useAppDispatch();
-  const { status, error } = useAppSelector((state) => state.contact);
+  const { status, error } = useAppSelector(selectContactState);
 
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
@@ -42,12 +46,12 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(setStatus("loading"));
+    dispatch(setContactStatus("loading"));
 
     try {
       // SIMULATING SUCCESSFUL SUBMISSION
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      dispatch(setStatus("succeeded"));
+      dispatch(setContactStatus("succeeded"));
       setFormData({
         name: "",
         email: "",
@@ -56,9 +60,11 @@ const Contact: React.FC = () => {
       });
     } catch (err) {
       dispatch(
-        setError(err instanceof Error ? err.message : "An error occurred"),
+        setContactError(
+          err instanceof Error ? err.message : "An error occurred",
+        ),
       );
-      dispatch(setStatus("failed"));
+      dispatch(setContactStatus("failed"));
     }
   };
 
@@ -93,7 +99,6 @@ const Contact: React.FC = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ py: { xs: 4, md: 6 } }}>
-        {/* Header */}
         <Typography
           variant="h1"
           sx={{
@@ -114,11 +119,10 @@ const Contact: React.FC = () => {
             color: "text.secondary",
           }}
         >
-          Have questions? We'd love to hear from you.
+          Have questions? We'd love to hear from you. (no email set up yet)
         </Typography>
 
         <Grid container spacing={4}>
-          {/* Contact Info Cards */}
           <Grid item xs={12} md={4}>
             <Stack spacing={3}>
               {contactInfo.map((info, index) => (
@@ -146,7 +150,6 @@ const Contact: React.FC = () => {
             </Stack>
           </Grid>
 
-          {/* Contact Form */}
           <Grid item xs={12} md={8}>
             <Paper
               elevation={2}

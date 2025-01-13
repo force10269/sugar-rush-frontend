@@ -5,10 +5,8 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Menu,
   Container,
   Button,
-  MenuItem,
   useTheme,
   useMediaQuery,
   Drawer,
@@ -93,7 +91,7 @@ const ResponsiveNavbar: React.FC = () => {
       >
         <Container maxWidth="lg">
           <Toolbar disableGutters>
-            {/* Mobile Menu Icon */}
+            {/* Mobile menu icon */}
             {isMobile && (
               <IconButton
                 color="inherit"
@@ -106,7 +104,7 @@ const ResponsiveNavbar: React.FC = () => {
               </IconButton>
             )}
 
-            {/* Logo */}
+            {/* The main logo */}
             <Typography
               variant="h6"
               noWrap
@@ -124,7 +122,7 @@ const ResponsiveNavbar: React.FC = () => {
               Sugar Rush LTD
             </Typography>
 
-            {/* Desktop Navigation */}
+            {/* For desktop navigation */}
             {!isMobile && (
               <Box
                 sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
@@ -161,14 +159,14 @@ const ResponsiveNavbar: React.FC = () => {
         </Container>
       </AppBar>
 
-      {/* Mobile Drawer */}
+      {/* Mobile drawer */}
       <Drawer
         variant="temporary"
         anchor="left"
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better mobile performance
+          keepMounted: true, // Solely for better mobile performance
         }}
         sx={{
           display: { xs: "block", md: "none" },

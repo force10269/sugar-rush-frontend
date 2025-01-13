@@ -1,41 +1,75 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-export interface ContactState {
+export interface RequestState {
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
-const initialContactState: ContactState = {
+export interface SugarRushState {
+  bookingState: RequestState;
+  contactState: RequestState;
+}
+
+const initialContactState: RequestState = {
   status: "idle",
   error: null,
 };
 
-const contactSlice = createSlice({
-  name: "contact",
-  initialState: initialContactState,
+const initialBookingState: RequestState = {
+  status: "idle",
+  error: null,
+};
+
+const initialSugarRushState: SugarRushState = {
+  bookingState: initialBookingState,
+  contactState: initialContactState,
+};
+
+const mainSlice = createSlice({
+  name: "main",
+  initialState: initialSugarRushState,
   reducers: {
-    setStatus: (state, action: PayloadAction<ContactState["status"]>) => {
-      state.status = action.payload;
+    setBookingStatus: (
+      state,
+      action: PayloadAction<RequestState["status"]>,
+    ) => {
+      state.bookingState.status = action.payload;
     },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
+    setBookingError: (state, action: PayloadAction<string | null>) => {
+      state.bookingState.error = action.payload;
+    },
+    setContactStatus: (
+      state,
+      action: PayloadAction<RequestState["status"]>,
+    ) => {
+      state.contactState.status = action.payload;
+    },
+    setContactError: (state, action: PayloadAction<string | null>) => {
+      state.contactState.error = action.payload;
     },
   },
 });
 
 export const store = configureStore({
   reducer: {
-    contact: contactSlice.reducer,
+    main: mainSlice.reducer,
   },
 });
 
-export const { setStatus, setError } = contactSlice.actions;
+export const {
+  setBookingStatus,
+  setBookingError,
+  setContactStatus,
+  setContactError,
+} = mainSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const selectBookingState = (state: RootState) => state.main.bookingState;
+export const selectContactState = (state: RootState) => state.main.contactState;
 
 export default store;

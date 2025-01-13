@@ -21,7 +21,7 @@ const PageContainer: React.FC<PageContainerProps> = ({
         flexGrow: 1,
         width: "100%",
         minHeight: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
-        paddingTop: theme.mixins.toolbar.minHeight, // Account for fixed navbar
+        paddingTop: theme.mixins.toolbar.minHeight, // Account for the fixed navbar
         display: "flex",
         flexDirection: "column",
       }}

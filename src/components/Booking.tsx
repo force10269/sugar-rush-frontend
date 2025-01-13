@@ -14,7 +14,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { setStatus, setError } from "../store/store";
+import {
+  setBookingStatus,
+  setBookingError,
+  selectBookingState,
+} from "../store/store";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 
@@ -42,7 +46,7 @@ const Booking: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useAppDispatch();
-  const { status, error } = useAppSelector((state) => state.contact);
+  const { status, error } = useAppSelector(selectBookingState);
 
   const [formData, setFormData] = useState<BookingFormData>({
     name: "",
@@ -57,12 +61,12 @@ const Booking: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(setStatus("loading"));
+    dispatch(setBookingStatus("loading"));
 
     try {
       // SIMULATION SUCCESSFUL SUBMISSION
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      dispatch(setStatus("succeeded"));
+      dispatch(setBookingStatus("succeeded"));
       setFormData({
         name: "",
         email: "",
@@ -75,9 +79,11 @@ const Booking: React.FC = () => {
       });
     } catch (err) {
       dispatch(
-        setError(err instanceof Error ? err.message : "An error occurred"),
+        setBookingError(
+          err instanceof Error ? err.message : "An error occurred",
+        ),
       );
-      dispatch(setStatus("failed"));
+      dispatch(setBookingStatus("failed"));
     }
   };
 
@@ -92,7 +98,6 @@ const Booking: React.FC = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ py: { xs: 4, md: 6 } }}>
-        {/* Header Section */}
         <Typography
           variant="h1"
           sx={{
@@ -102,7 +107,7 @@ const Booking: React.FC = () => {
             color: "primary.main",
           }}
         >
-          Book Sugar Rush for Your Event
+          Book Us!
         </Typography>
         <Typography
           variant="h2"
@@ -113,10 +118,10 @@ const Booking: React.FC = () => {
             color: "text.secondary",
           }}
         >
-          Let us bring the sweetness to your special occasion
+          Let's bring the sweetness to your special occasion (no email set up
+          yet)
         </Typography>
 
-        {/* Booking Form */}
         <Paper
           elevation={2}
           sx={{
@@ -248,7 +253,6 @@ const Booking: React.FC = () => {
           </form>
         </Paper>
 
-        {/* Additional Information */}
         <Box sx={{ mt: 4, textAlign: "center" }}>
           <Typography variant="body2" color="text.secondary">
             * We'll review your request and get back to you within 24-48 hours.
