@@ -8,6 +8,7 @@
     "@mui/icons-material": "^5.16.14",
     "@mui/material": "^5.15.5",
     "@mui/x-date-pickers": "^7.23.6",
+    "@react-google-maps/api": "^2.20.5",
     "@reduxjs/toolkit": "^2.0.1",
     "@types/node": "^16.18.70",
     "@types/react": "^18.2.48",

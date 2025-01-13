@@ -217,11 +217,10 @@ const Booking: React.FC = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    label="Location"
+                    label="Event Location"
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
