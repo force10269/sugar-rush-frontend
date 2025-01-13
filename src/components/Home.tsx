@@ -47,7 +47,7 @@ const Home: React.FC = () => {
     <Box>
       <Box
         sx={{
-          bgcolor: "primary.main",
+          bgcolor: "primary.light",
           color: "white",
           pt: { xs: 4, sm: 6, md: 8 },
           pb: { xs: 4, sm: 6, md: 8 },

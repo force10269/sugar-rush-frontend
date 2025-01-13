@@ -20,18 +20,9 @@ import {
   selectBookingState,
 } from "../store/store";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-
-interface BookingFormData {
-  name: string;
-  email: string;
-  phone: string;
-  eventType: string;
-  expectedGuests: string;
-  date: dayjs.Dayjs | null;
-  location: string;
-  additionalDetails: string;
-}
+import { sendBookingEmail } from "../service/EmailService";
+import { BookingFormData } from "../store/types";
+import { Dayjs } from "dayjs";
 
 const eventTypes = [
   "Fair",
@@ -64,19 +55,34 @@ const Booking: React.FC = () => {
     dispatch(setBookingStatus("loading"));
 
     try {
-      // SIMULATION SUCCESSFUL SUBMISSION
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      dispatch(setBookingStatus("succeeded"));
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        eventType: "",
-        expectedGuests: "",
-        date: null,
-        location: "",
-        additionalDetails: "",
-      });
+      const emailData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        eventType: formData.eventType,
+        expectedGuests: formData.expectedGuests,
+        date: formData.date?.toString() || "",
+        location: formData.location,
+        additionalDetails: formData.additionalDetails,
+      };
+
+      const emailSuccess = await sendBookingEmail(emailData);
+
+      if (emailSuccess) {
+        dispatch(setBookingStatus("succeeded"));
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          eventType: "",
+          expectedGuests: "",
+          date: null,
+          location: "",
+          additionalDetails: "",
+        });
+      } else {
+        throw new Error("Email service failed to send email");
+      }
     } catch (err) {
       dispatch(
         setBookingError(
@@ -193,7 +199,7 @@ const Booking: React.FC = () => {
                 <Grid item xs={12} sm={6}>
                   <DatePicker
                     label="Event Date"
-                    value={formData.date}
+                    value={formData.date as Dayjs | null | undefined}
                     onChange={(newValue) =>
                       setFormData((prev) => ({
                         ...prev,

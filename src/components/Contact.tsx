@@ -23,13 +23,8 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
-interface ContactFormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
+import { ContactFormData } from "../store/types";
+import { sendContactEmail } from "../service/EmailService";
 
 const Contact: React.FC = () => {
   const theme = useTheme();
@@ -49,15 +44,18 @@ const Contact: React.FC = () => {
     dispatch(setContactStatus("loading"));
 
     try {
-      // SIMULATING SUCCESSFUL SUBMISSION
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      dispatch(setContactStatus("succeeded"));
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
+      const emailSuccess = await sendContactEmail(formData);
+      if (emailSuccess) {
+        dispatch(setContactStatus("succeeded"));
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        throw new Error("Email service failed to send email");
+      }
     } catch (err) {
       dispatch(
         setContactError(
