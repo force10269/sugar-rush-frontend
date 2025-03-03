@@ -161,7 +161,7 @@ const Contact: React.FC = () => {
             color: "text.secondary",
           }}
         >
-          Have questions? We'd love to hear from you. (no email set up yet)
+          Have questions? We'd love to hear from you.
         </Typography>
 
         <Grid container spacing={4}>

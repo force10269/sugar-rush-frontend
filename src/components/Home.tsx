@@ -27,7 +27,6 @@ const Home: React.FC = () => {
       icon: <EventIcon sx={{ fontSize: 40, color: "primary.main", mb: 2 }} />,
     },
     {
-      title: "Sweet Treats",
       description:
         "From cotton candy to shaved ice, we bring the sweetness to you",
       icon: (
@@ -49,7 +48,7 @@ const Home: React.FC = () => {
         sx={{
           bgcolor: "primary.dark",
           color: "white",
-          pt: { xs: 0.3, sm: 0.3, md: 0.3 },
+          pt: { xs: 4, sm: 4, md: 4 },
           pb: { xs: 0.3, sm: 0.3, md: 0.3 },
           position: "relative",
           overflow: "hidden",

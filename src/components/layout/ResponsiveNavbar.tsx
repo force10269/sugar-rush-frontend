@@ -43,7 +43,7 @@ const ResponsiveNavbar: React.FC = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Box sx={{ my: 2, display: "flex", justifyContent: "center" }}>
-        <img src="/path/to/your/icon.png" alt="Sugar Rush LTD" height="40" />
+        <img src="placeholder.png" alt="Sugar Rush LTD" height="40" />
       </Box>
       <List>
         {pages.map((page) => (

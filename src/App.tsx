@@ -31,7 +31,7 @@ const App: React.FC = () => {
               }}
             >
               <ResponsiveNavbar />
-              <Box component="main" sx={{ flexGrow: 1 }}>
+              <Box component="main" sx={{ flexGrow: 1, pt: 4 }}>
                 <React.Suspense
                   fallback={
                     <Box
