@@ -209,7 +209,11 @@ const Contact: React.FC = () => {
               <form onSubmit={handleSubmit} style={{ height: "100%" }}>
                 <Stack
                   spacing={3}
-                  sx={{ height: "100%", justifyContent: "space-between" }}
+                  sx={{
+                    height: "100%",
+                    justifyContent: "space-between",
+                    flexGrow: 1,
+                  }}
                 >
                   <Box>
                     {status === "failed" && (
@@ -259,7 +263,7 @@ const Contact: React.FC = () => {
                         <TextField
                           fullWidth
                           multiline
-                          rows={4}
+                          rows={!isMobile ? 20 : 4}
                           label="Message"
                           name="message"
                           value={formData.message}
