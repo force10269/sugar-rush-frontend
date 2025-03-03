@@ -43,9 +43,9 @@ const ResponsiveNavbar: React.FC = () => {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2, color: "primary.main" }}>
-        Sugar Rush LTD
-      </Typography>
+      <Box sx={{ my: 2, display: "flex", justifyContent: "center" }}>
+        <img src="/path/to/your/icon.png" alt="Sugar Rush LTD" height="40" />
+      </Box>
       <List>
         {pages.map((page) => (
           <ListItem key={page.title} disablePadding>
@@ -105,22 +105,19 @@ const ResponsiveNavbar: React.FC = () => {
             )}
 
             {/* The main logo */}
-            <Typography
-              variant="h6"
-              noWrap
+            <Box
               component={Link}
               to="/"
               sx={{
                 mr: 2,
                 display: "flex",
-                fontWeight: 700,
-                color: "primary.main",
+                alignItems: "center",
                 textDecoration: "none",
                 flexGrow: isMobile ? 1 : 0,
               }}
             >
-              Sugar Rush LTD
-            </Typography>
+              <img src="placeholder.png" alt="Sugar Rush LTD" height="100" />
+            </Box>
 
             {/* For desktop navigation */}
             {!isMobile && (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Container,
@@ -23,6 +23,7 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import { ContactFormData } from "../store/types";
 import { sendContactEmail } from "../service/EmailService";
 
@@ -32,12 +33,34 @@ const Contact: React.FC = () => {
   const dispatch = useAppDispatch();
   const { status, error } = useAppSelector(selectContactState);
 
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const formContainerRef = useRef<HTMLDivElement>(null);
+
+  const [containerHeight, setContainerHeight] = useState<number | undefined>(
+    undefined,
+  );
+
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
+
+  useEffect(() => {
+    const syncHeight = () => {
+      if (cardsContainerRef.current) {
+        const cardsHeight = cardsContainerRef.current.clientHeight;
+        setContainerHeight(cardsHeight);
+      }
+    };
+
+    syncHeight();
+    window.addEventListener("resize", syncHeight);
+    return () => {
+      window.removeEventListener("resize", syncHeight);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,17 +103,38 @@ const Contact: React.FC = () => {
     {
       icon: <EmailIcon sx={{ fontSize: 40, color: "primary.main" }} />,
       title: "Email",
-      content: "[PUT IN EMAIL HERE]",
+      content: "sugarr.llc@gmail.com",
     },
     {
       icon: <PhoneIcon sx={{ fontSize: 40, color: "primary.main" }} />,
       title: "Phone",
-      content: "[PUT IN PHONE # HERE]",
+      content: (
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Typography color="text.secondary">
+            Deontay Martinez - (719) 580-0076
+          </Typography>
+          <Typography color="text.secondary">
+            Erica Martinez - (719) 480-4230
+          </Typography>
+        </Box>
+      ),
     },
     {
       icon: <LocationOnIcon sx={{ fontSize: 40, color: "primary.main" }} />,
       title: "Location",
-      content: "[PUT IN LOCALE HERE]",
+      content: "La Jara, CO",
+    },
+    {
+      icon: <InstagramIcon sx={{ fontSize: 40, color: "primary.main" }} />,
+      title: "Instagram",
+      content: (
+        <a
+          href="https://www.instagram.com/sugarrush.ltd?igsh=MXR4em8wd3Q2OThjdQ=="
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          @sugarrush.ltd
+        </a>
+      ),
     },
   ];
 
@@ -122,96 +166,109 @@ const Contact: React.FC = () => {
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
-            <Stack spacing={3}>
-              {contactInfo.map((info, index) => (
-                <Card
-                  key={index}
-                  sx={{
-                    textAlign: "center",
-                    transition: "transform 0.2s",
-                    "&:hover": {
-                      transform: "translateY(-4px)",
-                    },
-                  }}
-                >
-                  <CardContent>
-                    <Box sx={{ mb: 1 }}>{info.icon}</Box>
-                    <Typography variant="h6" gutterBottom>
-                      {info.title}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      {info.content}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              ))}
-            </Stack>
+            <Box ref={cardsContainerRef}>
+              <Stack spacing={3}>
+                {contactInfo.map((info, index) => (
+                  <Card
+                    key={index}
+                    sx={{
+                      textAlign: "center",
+                      transition: "transform 0.2s",
+                      "&:hover": {
+                        transform: "translateY(-4px)",
+                      },
+                    }}
+                  >
+                    <CardContent>
+                      <Box sx={{ mb: 1 }}>{info.icon}</Box>
+                      <Typography variant="h6" gutterBottom>
+                        {info.title}
+                      </Typography>
+                      <Typography color="text.secondary">
+                        {info.content}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </Stack>
+            </Box>
           </Grid>
 
           <Grid item xs={12} md={8}>
             <Paper
+              ref={formContainerRef}
               elevation={2}
               sx={{
                 p: { xs: 2, sm: 3, md: 4 },
                 borderRadius: 2,
+                height: !isMobile ? containerHeight : "auto",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              <form onSubmit={handleSubmit}>
-                <Stack spacing={3}>
-                  {status === "failed" && (
-                    <Alert severity="error">{error}</Alert>
-                  )}
-                  {status === "succeeded" && (
-                    <Alert severity="success">
-                      Message sent successfully! We'll get back to you soon.
-                    </Alert>
-                  )}
+              <form onSubmit={handleSubmit} style={{ height: "100%" }}>
+                <Stack
+                  spacing={3}
+                  sx={{ height: "100%", justifyContent: "space-between" }}
+                >
+                  <Box>
+                    {status === "failed" && (
+                      <Alert severity="error" sx={{ mb: 2 }}>
+                        {error}
+                      </Alert>
+                    )}
+                    {status === "succeeded" && (
+                      <Alert severity="success" sx={{ mb: 2 }}>
+                        Message sent successfully! We'll get back to you soon.
+                      </Alert>
+                    )}
 
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                      />
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Subject"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          multiline
+                          rows={4}
+                          label="Message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          required
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        multiline
-                        rows={4}
-                        label="Message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                      />
-                    </Grid>
-                  </Grid>
+                  </Box>
 
                   <Button
                     type="submit"
@@ -219,7 +276,7 @@ const Contact: React.FC = () => {
                     color="primary"
                     size={isMobile ? "medium" : "large"}
                     disabled={status === "loading"}
-                    sx={{ mt: 2 }}
+                    sx={{ alignSelf: "flex-start" }}
                   >
                     {status === "loading" ? "Sending..." : "Send Message"}
                   </Button>

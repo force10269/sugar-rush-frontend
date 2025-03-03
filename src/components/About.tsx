@@ -24,7 +24,7 @@ const About: React.FC = () => {
       icon: <LocalShippingIcon sx={{ fontSize: 40, color: "primary.main" }} />,
       title: "Our Food Truck",
       description:
-        "A vibrant red truck bringing joy and sweetness to events across Colorado",
+        "A wrapped food truck trying to bring memories to people in the Summer time",
     },
     {
       icon: <GroupsIcon sx={{ fontSize: 40, color: "primary.main" }} />,
@@ -74,6 +74,7 @@ const About: React.FC = () => {
               color: "text.secondary",
             }}
           >
+            The Martinez family has been around since the dawn of time <br />{" "}
             [STORY PLACEHOLDER HERE]
           </Typography>
         </Box>
@@ -124,7 +125,9 @@ const About: React.FC = () => {
               color: "text.secondary",
             }}
           >
-            [VALUES PLACEHOLDER HERE]
+            "I remember when my mom mad this for me when I was a kid!" This is
+            the exact thought we want you to have as you eat our food! <br />
+            [INSERT VALUES PLACEHOLDER HERE]
           </Typography>
         </Box>
 
@@ -143,6 +146,7 @@ const About: React.FC = () => {
               fontSize: { xs: "1.5rem", sm: "1.75rem" },
               mb: 2,
             }}
+            color="white"
           >
             Want to have Sugar Rush at your next event?
           </Typography>

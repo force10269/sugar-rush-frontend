@@ -47,10 +47,10 @@ const Home: React.FC = () => {
     <Box>
       <Box
         sx={{
-          bgcolor: "primary.light",
+          bgcolor: "primary.dark",
           color: "white",
-          pt: { xs: 4, sm: 6, md: 8 },
-          pb: { xs: 4, sm: 6, md: 8 },
+          pt: { xs: 0.3, sm: 0.3, md: 0.3 },
+          pb: { xs: 0.3, sm: 0.3, md: 0.3 },
           position: "relative",
           overflow: "hidden",
           borderRadius: { sm: "0 0 2rem 2rem" },
@@ -72,23 +72,11 @@ const Home: React.FC = () => {
                 style={{
                   maxWidth: "100%",
                   height: "auto",
-                  maxHeight: "150px",
+                  maxHeight: "400px",
                   objectFit: "contain",
                 }}
               />
             </Box>
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: { xs: "2.5rem", sm: "3.5rem", md: "4rem" },
-                fontWeight: "bold",
-                mb: 2,
-                color: "text.primary",
-                textShadow: "none",
-              }}
-            >
-              Sugar Rush LTD
-            </Typography>
           </Box>
         </Container>
       </Box>
@@ -137,6 +125,7 @@ const Home: React.FC = () => {
               sx={{
                 mb: 3,
                 fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem" },
+                color: "white",
               }}
             >
               Ready to sweeten your event?

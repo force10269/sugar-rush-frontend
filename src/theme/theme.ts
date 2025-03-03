@@ -1,13 +1,12 @@
-// src/theme/theme.ts
 import { createTheme, responsiveFontSizes } from "@mui/material";
 
 let theme = createTheme({
   palette: {
     primary: {
-      main: "#D32F2F", // A slightly softer red
-      light: "#EF5350",
-      dark: "#C62828",
-      contrastText: "#FFFFFF",
+      main: "#C54933",
+      light: "#A62E1D",
+      dark: "#FFE6D9",
+      contrastText: "#ffb696",
     },
     secondary: {
       main: "#424242", // Dark gray as secondary color

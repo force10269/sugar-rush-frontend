@@ -124,8 +124,7 @@ const Booking: React.FC = () => {
             color: "text.secondary",
           }}
         >
-          Let's bring the sweetness to your special occasion (no email set up
-          yet)
+          Let's bring the sweetness to your special occasion
         </Typography>
 
         <Paper
