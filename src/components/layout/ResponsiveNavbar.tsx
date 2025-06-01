@@ -165,11 +165,12 @@ const ResponsiveNavbar: React.FC = () => {
               to="/"
               aria-label="Sugar Rush homepage"
               sx={{
-                mr: 2,
+                mr: isMobile ? 0 : 2,
                 display: "flex",
                 alignItems: "center",
                 textDecoration: "none",
                 flexGrow: isMobile ? 1 : 0,
+                justifyContent: "center",
                 "&:focus-visible": {
                   outline: `2px solid ${theme.palette.primary.main}`,
                   outlineOffset: "2px",
@@ -181,7 +182,11 @@ const ResponsiveNavbar: React.FC = () => {
                 src="/placeholder.png" 
                 alt="Sugar Rush Ltd - Colorado Food Truck logo" 
                 height="80"
-                style={{ maxHeight: "80px", objectFit: "contain" }}
+                style={{ 
+                  maxHeight: "80px", 
+                  objectFit: "contain",
+                  display: "block",
+                }}
               />
               {!isMobile && (
                 <Typography
@@ -197,6 +202,10 @@ const ResponsiveNavbar: React.FC = () => {
                 </Typography>
               )}
             </Box>
+
+            {isMobile && (
+              <Box sx={{ width: 48, mr: 2 }} />
+            )}
 
             {!isMobile && (
               <Box

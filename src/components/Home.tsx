@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -21,6 +21,20 @@ const Home: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [preloadComplete, setPreloadComplete] = useState(false);
+
+  // Preload the image to ensure it's available
+  useEffect(() => {
+    const preloadImage = new Image();
+    preloadImage.onload = () => {
+      setPreloadComplete(true);
+    };
+    preloadImage.onerror = () => {
+      setImageError(true);
+      setPreloadComplete(true);
+    };
+    preloadImage.src = "/placeholder.png";
+  }, []);
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
@@ -169,7 +183,7 @@ const Home: React.FC = () => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <Box sx={{ textAlign: "center", position: "relative" }}>
-                {!imageLoaded && (
+                {(!imageLoaded || !preloadComplete) && (
                   <Skeleton
                     variant="rectangular"
                     width="100%"
@@ -181,11 +195,10 @@ const Home: React.FC = () => {
                     }}
                   />
                 )}
-                {!imageError && (
+                {!imageError && preloadComplete && (
                   <img
                     src="/placeholder.png"
                     alt="Sugar Rush - Colorado's Premier Food Truck"
-                    loading="lazy"
                     onLoad={handleImageLoad}
                     onError={handleImageError}
                     style={{
@@ -196,10 +209,13 @@ const Home: React.FC = () => {
                       borderRadius: "16px",
                       boxShadow: "0 16px 40px rgba(0,0,0,0.15)",
                       display: imageLoaded ? "block" : "none",
+                      // Force fresh load on each visit
+                      imageRendering: "crisp-edges",
                     }}
+                    decoding="async"
                   />
                 )}
-                {imageError && imageLoaded && (
+                {imageError && preloadComplete && (
                   <Box
                     sx={{
                       maxWidth: "100%",

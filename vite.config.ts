@@ -8,7 +8,32 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,jpg,pdf,svg,xml,webmanifest}']
+        globPatterns: ['**/*.{js,css,html,ico,svg,xml,webmanifest}'],
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|gif|svg|webp)$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'images',
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 24 * 60 * 60 // 24 hours
+              },
+              networkTimeoutSeconds: 3,
+            }
+          },
+          {
+            urlPattern: /\.(?:pdf)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'documents',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+              }
+            }
+          }
+        ]
       },
       includeAssets: [
         'favicon.ico', 
@@ -21,7 +46,7 @@ export default defineConfig({
       ],
       manifest: false,
       injectManifest: {
-        globPatterns: ['**/*.{js,css,html,ico,png,jpg,pdf,svg,xml,webmanifest}']
+        globPatterns: ['**/*.{js,css,html,ico,svg,xml,webmanifest}']
       }
     })
   ],
