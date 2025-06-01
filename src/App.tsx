@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { theme } from "./theme/theme";
 import ResponsiveNavbar from "./components/layout/ResponsiveNavbar";
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, CircularProgress, Typography } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -31,18 +31,42 @@ const App: React.FC = () => {
               }}
             >
               <ResponsiveNavbar />
-              <Box component="main" sx={{ flexGrow: 1, pt: 4 }}>
+              <Box 
+                component="main" 
+                id="main-content"
+                sx={{ 
+                  flexGrow: 1, 
+                  pt: 4,
+                  // Ensure proper focus management for accessibility
+                  "&:focus": {
+                    outline: "none",
+                  },
+                }}
+              >
                 <React.Suspense
                   fallback={
                     <Box
                       sx={{
                         display: "flex",
+                        flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
                         height: "50vh",
+                        gap: 2,
                       }}
                     >
-                      Loading...
+                      <CircularProgress 
+                        size={40} 
+                        thickness={4}
+                        sx={{ color: "primary.main" }}
+                      />
+                      <Typography 
+                        variant="body1" 
+                        color="text.secondary"
+                        sx={{ fontSize: "1.1rem" }}
+                      >
+                        Loading delicious content...
+                      </Typography>
                     </Box>
                   }
                 >

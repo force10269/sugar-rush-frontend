@@ -1,70 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
   Container,
   Paper,
-  Grid,
-  Card,
-  CardContent,
   Button,
+  useTheme,
+  useMediaQuery,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
-
-interface MenuItem {
-  name: string;
-  description: string;
-  category: string;
-}
-
-const sampleMenu: { [key: string]: MenuItem[] } = {
-  "Sweet Treats": [
-    {
-      name: "Cotton Candy",
-      description: "Freshly spun cotton candy in various flavors",
-      category: "Sweet Treats",
-    },
-    {
-      name: "Shaved Ice",
-      description: "Refreshing shaved ice with multiple syrup options",
-      category: "Sweet Treats",
-    },
-  ],
-  Beverages: [
-    {
-      name: "Fresh Lemonade",
-      description: "Hand-squeezed lemonade, available in classic or flavored",
-      category: "Beverages",
-    },
-  ],
-  "Fried Delights": [
-    {
-      name: "Funnel Cake",
-      description: "Classic carnival-style funnel cake with powdered sugar",
-      category: "Fried Delights",
-    },
-  ],
-};
+import DownloadIcon from "@mui/icons-material/Download";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 const Menu: React.FC = () => {
-  const handleDownloadPDF = () => {
-    // For downloading
-    window.open("/placeholder.pdf", "_blank");
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [pdfExists, setPdfExists] = useState<boolean | null>(null);
 
-    // Or for direct download
+  // Use import.meta.env for Vite environment variables
+  const MENU_PDF_PATH = "/sugar-rush-menu.pdf";
+
+  useEffect(() => {
+    // Check if PDF exists
+    const checkPdfExists = async () => {
+      try {
+        const response = await fetch(MENU_PDF_PATH, { method: "HEAD" });
+        setPdfExists(response.ok);
+      } catch (error) {
+        console.error("Error checking PDF:", error);
+        setPdfExists(false);
+      }
+    };
+
+    checkPdfExists();
+  }, []);
+
+  const handleDownloadPDF = () => {
     const link = document.createElement("a");
-    link.href = "/placeholder.pdf";
+    link.href = MENU_PDF_PATH;
     link.download = "Sugar-Rush-Menu.pdf";
     link.click();
   };
+
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
-      <Box sx={{ mb: 4, textAlign: "center" }}>
+      <Box sx={{ mb: 6, textAlign: "center" }}>
         <Typography
           variant="h1"
           sx={{
             fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
             mb: 2,
             color: "primary.main",
+            fontWeight: 700,
           }}
         >
           Our Menu
@@ -74,88 +62,188 @@ const Menu: React.FC = () => {
           color="text.secondary"
           sx={{
             fontSize: { xs: "1.1rem", sm: "1.25rem" },
-            mb: 3,
+            mb: 4,
+            fontWeight: 400,
           }}
         >
-          Sweet treats and delights for your event
+          View our complete menu with current prices and seasonal offerings
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleDownloadPDF}
-          sx={{ mb: 4 }}
-        >
-          Download PDF Menu
-        </Button>
       </Box>
 
-      {/* Menu categories */}
-      <Grid container spacing={3}>
-        {Object.entries(sampleMenu).map(([category, items]) => (
-          <Grid item xs={12} md={6} key={category}>
-            <Paper
-              elevation={2}
+      <Alert
+        severity="success"
+        sx={{
+          mb: 4,
+          borderRadius: 2,
+          "& .MuiAlert-message": {
+            fontSize: "1rem",
+          },
+        }}
+      >
+        <AlertTitle sx={{ fontWeight: 600 }}>Full Menu PDF</AlertTitle>
+        Download our complete menu for your convenience and easy reference.
+        <Box sx={{ mt: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleDownloadPDF}
+            startIcon={<DownloadIcon />}
+            size="medium"
+            sx={{ fontWeight: 600 }}
+          >
+            Download Menu PDF
+          </Button>
+        </Box>
+      </Alert>
+
+      <Paper
+        elevation={3}
+        sx={{
+          borderRadius: 3,
+          overflow: "hidden",
+          minHeight: { xs: "500px", md: "700px" },
+          position: "relative",
+          bgcolor: "grey.50",
+        }}
+      >
+        {pdfExists === null ? (
+          <Box
+            sx={{
+              width: "100%",
+              height: { xs: "500px", md: "700px" },
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="h6" color="text.secondary">
+              Loading menu...
+            </Typography>
+          </Box>
+        ) : pdfExists ? (
+          // PDF exists - show in iframe with fallback
+          <Box
+            sx={{
+              width: "100%",
+              height: { xs: "500px", md: "700px" },
+              position: "relative",
+            }}
+          >
+            <iframe
+              src={`${MENU_PDF_PATH}#view=FitH`}
+              width="100%"
+              height="100%"
+              style={{
+                border: "none",
+                borderRadius: "inherit",
+              }}
+              title="Sugar Rush Menu PDF"
+              onError={() => {
+                console.error("PDF failed to load in iframe");
+                setPdfExists(false);
+              }}
+            />
+            {/* Fallback message for browsers that don't support PDF viewing */}
+            <Box
               sx={{
-                p: 3,
-                height: "100%",
-                borderRadius: 2,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: "none",
+                alignItems: "center",
+                justifyContent: "center",
                 bgcolor: "background.paper",
+                zIndex: 1,
+                // Show fallback if iframe fails to load
+                "@media (max-width: 600px)": {
+                  display: "flex",
+                },
               }}
             >
-              <Typography
-                variant="h3"
-                sx={{
-                  mb: 2,
-                  fontSize: { xs: "1.5rem", sm: "1.75rem" },
-                  color: "primary.main",
-                  borderBottom: "2px solid",
-                  borderColor: "primary.main",
-                  pb: 1,
-                }}
-              >
-                {category}
+              <Box sx={{ textAlign: "center", p: 4 }}>
+                <MenuBookIcon
+                  sx={{ fontSize: 48, color: "primary.main", mb: 2 }}
+                />
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                  PDF Viewer Not Supported
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                >
+                  Please use the download button to view our menu.
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={handleDownloadPDF}
+                  startIcon={<DownloadIcon />}
+                >
+                  Download Menu
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        ) : (
+          // PDF doesn't exist or failed to load - show error message with download option
+          <Box
+            sx={{
+              width: "100%",
+              height: { xs: "500px", md: "700px" },
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                textAlign: "center",
+                p: 4,
+                bgcolor: "background.paper",
+                borderRadius: 2,
+                boxShadow: 2,
+                maxWidth: "400px",
+              }}
+            >
+              <MenuBookIcon
+                sx={{ fontSize: 48, color: "primary.main", mb: 2 }}
+              />
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                Menu Viewer Unavailable
               </Typography>
-              <Grid container spacing={2}>
-                {items.map((item, index) => (
-                  <Grid item xs={12} key={index}>
-                    <Card
-                      sx={{
-                        border: "1px solid",
-                        borderColor: "divider",
-                        boxShadow: "none",
-                        height: "100%",
-                        "&:hover": {
-                          boxShadow: 1,
-                        },
-                      }}
-                    >
-                      <CardContent>
-                        <Typography variant="h6" component="h4" gutterBottom>
-                          {item.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {item.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                The PDF viewer is temporarily unavailable. Please download the
+                menu to view our complete offerings.
+              </Typography>
+              <Button
+                variant="contained"
+                onClick={handleDownloadPDF}
+                startIcon={<DownloadIcon />}
+                sx={{ fontWeight: 600 }}
+              >
+                Download Menu PDF
+              </Button>
+            </Box>
+          </Box>
+        )}
+      </Paper>
 
-      <Box sx={{ mt: 4, textAlign: "center" }}>
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{ fontStyle: "italic" }}
+      {isMobile && pdfExists && (
+        <Alert
+          severity="info"
+          sx={{
+            mt: 3,
+            borderRadius: 2,
+          }}
         >
-          * Menu items and availability may vary by event. Contact us for
-          customized offerings for your event.
-        </Typography>
-      </Box>
+          For the best mobile viewing experience, we recommend downloading the
+          menu.
+        </Alert>
+      )}
     </Container>
   );
 };

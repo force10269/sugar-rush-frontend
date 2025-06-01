@@ -3,10 +3,10 @@ import { createTheme, responsiveFontSizes } from "@mui/material";
 let theme = createTheme({
   palette: {
     primary: {
-      main: "#C54933",
-      light: "#A62E1D",
-      dark: "#f6e6c0",
-      contrastText: "#ffb696",
+      main: "#C54933", // Main red
+      light: "#E8744A", // Lighter, more appealing red
+      dark: "#A62E1D", // Darker red for accents
+      contrastText: "#FFFFFF",
     },
     secondary: {
       main: "#424242", // Dark gray as secondary color
@@ -15,12 +15,18 @@ let theme = createTheme({
       contrastText: "#FFFFFF",
     },
     background: {
-      default: "#F5F5F5", // Light gray background
+      default: "#FAFAFA", // Slightly warmer background
       paper: "#FFFFFF",
     },
     text: {
       primary: "#2C2C2C", // Softer black for text
       secondary: "#666666", // Medium gray for secondary text
+    },
+    info: {
+      main: "#FFF8E7", // Warm cream for banner background
+      light: "#FFFCF0", // Even lighter cream
+      dark: "#F5E6B8", // Golden cream
+      contrastText: "#2C2C2C",
     },
     grey: {
       50: "#FAFAFA",
@@ -80,13 +86,15 @@ let theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
-          padding: "8px 24px",
+          borderRadius: 12,
+          padding: "10px 28px",
           boxShadow: "none",
+          fontWeight: 600,
         },
         contained: {
           "&:hover": {
-            boxShadow: "0px 2px 4px rgba(0,0,0,0.1)",
+            boxShadow: "0px 4px 12px rgba(197, 73, 51, 0.3)",
+            transform: "translateY(-1px)",
           },
         },
       },
@@ -94,11 +102,13 @@ let theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
-          boxShadow: "0px 2px 4px rgba(0,0,0,0.05)",
+          borderRadius: 16,
+          boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",
           "&:hover": {
-            boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
+            boxShadow: "0px 8px 24px rgba(0,0,0,0.12)",
+            transform: "translateY(-2px)",
           },
+          transition: "all 0.3s ease-in-out",
         },
       },
     },
@@ -106,8 +116,8 @@ let theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#FFFFFF",
-          borderRadius: 12,
-          boxShadow: "0px 2px 4px rgba(0,0,0,0.05)",
+          borderRadius: 16,
+          boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",
         },
       },
     },
@@ -115,7 +125,7 @@ let theme = createTheme({
       styleOverrides: {
         root: {
           "& .MuiOutlinedInput-root": {
-            borderRadius: 8,
+            borderRadius: 12,
             backgroundColor: "#FFFFFF",
           },
         },
@@ -140,7 +150,6 @@ let theme = createTheme({
   },
 });
 
-// Make typography responsive
 theme = responsiveFontSizes(theme);
 
 export { theme };

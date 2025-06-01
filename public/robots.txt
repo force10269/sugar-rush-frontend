@@ -1,3 +1,24 @@
+# Sugar Rush Ltd - Colorado Food Truck
 # https://www.robotstxt.org/robotstxt.html
+
 User-agent: *
-Disallow:
+Allow: /
+Allow: /menu
+Allow: /about
+Allow: /booking
+Allow: /contact
+Allow: /*.pdf
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+
+# Disallow admin or private areas (add as needed)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_/
+
+# Crawl delay (optional - helps prevent overwhelming the server)
+Crawl-delay: 1
+
+# Sitemap location (update with actual domain when deployed)
+Sitemap: https://sugarrushco.com/sitemap.xml
