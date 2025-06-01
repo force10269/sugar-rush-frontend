@@ -23,6 +23,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { sendBookingEmail } from "../service/EmailService";
 import { BookingFormData } from "../store/types";
 import { Dayjs } from "dayjs";
+import AddressAutocomplete from "./AddressAutocomplete";
 
 const eventTypes = [
   "Fair",
@@ -220,12 +221,18 @@ const Booking: React.FC = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Event Location"
-                    name="location"
+                  <AddressAutocomplete
                     value={formData.location}
-                    onChange={handleChange}
+                    onChange={(value) => 
+                      setFormData((prev) => ({
+                        ...prev,
+                        location: value,
+                      }))
+                    }
+                    label="Event Location"
+                    placeholder="Enter event address (city, venue, full address...)"
+                    required={false}
+                    fullWidth
                   />
                 </Grid>
                 <Grid item xs={12}>
